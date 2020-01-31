@@ -1,0 +1,14 @@
+#ifndef FACTORY_PRODUCTION_LINE_SIMULATION_VARS_H
+#define FACTORY_PRODUCTION_LINE_SIMULATION_VARS_H
+
+#include "headers.h"
+
+static const vector<string> BELT_SLOT_ITEM_TYPES = {"PIECE_A", "PIECE_B", "EMPTY"} ;
+static const int BELT_SLOT_ITEM_TYPES_SIZE = BELT_SLOT_ITEM_TYPES.size();
+static const int NUMBER_OF_BELTS = 1;
+static const int NUMBER_OF_WORKERS = 3;
+static const int NUMBER_OF_BELT_SLOTS = NUMBER_OF_WORKERS;
+static const int NUMBER_OF_SYSTEM_TICKS = 100;
+
+
+#endif //FACTORY_PRODUCTION_LINE_SIMULATION_VARS_H
