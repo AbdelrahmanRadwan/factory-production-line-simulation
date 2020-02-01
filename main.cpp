@@ -1,13 +1,8 @@
-
-
-#include "src/belt/belt.cpp"
-#include "src/libs/headers.h"
+#include "src/productionLine/productionLine.cpp"
 
 int main() {
-    srand (time(NULL));
-
-    belt belt;
-    belt.move();
-
+    srand(time(NULL));
+    productionLine line;
+    line.runProductionLine();
     return 0;
 }

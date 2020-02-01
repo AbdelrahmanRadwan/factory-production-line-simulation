@@ -8,11 +8,17 @@ class belt {
 private:
     int id;
     static int idCounter;
-    vector<beltSlotItem> beltSlots;
+
     void beltShiftRight();
+
+    vector<beltSlotItem> beltSlots;
+
 public:
     belt();
+
     void move();
+
+    vector<beltSlotItem> getBeltSlots();
 };
 
 

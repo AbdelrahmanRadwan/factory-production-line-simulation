@@ -2,6 +2,8 @@
 #ifndef FACTORY_PRODUCTION_LINE_SIMULATION_WORKER_H
 #define FACTORY_PRODUCTION_LINE_SIMULATION_WORKER_H
 
+#include "../belt/beltSlotItem.h"
+
 class worker {
 /*
     A worker is basically
@@ -9,10 +11,12 @@ class worker {
  */
 private:
     static int idCounter;
-    int id;
     vector<beltSlotItem> itemsInHands;
 public:
+    int id;
+
     worker();
+
     void takeItem(beltSlotItem);
 };
 

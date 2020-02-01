@@ -3,12 +3,12 @@
 
 #include "headers.h"
 
-static const vector<string> BELT_SLOT_ITEM_TYPES = {"PIECE_A", "PIECE_B", "EMPTY"} ;
+static const vector<string> BELT_SLOT_ITEM_TYPES = {"PIECE_A", "PIECE_B", "EMPTY"};
 static const int BELT_SLOT_ITEM_TYPES_SIZE = BELT_SLOT_ITEM_TYPES.size();
 static const int NUMBER_OF_BELTS = 1;
-static const int NUMBER_OF_WORKERS = 3;
-static const int NUMBER_OF_BELT_SLOTS = NUMBER_OF_WORKERS;
-static const int NUMBER_OF_SYSTEM_TICKS = 100;
-
+static const int NUMBER_OF_BELT_SIDES = 2;
+static const int NUMBER_OF_BELT_SLOTS = 3;
+static const int NUMBER_OF_WORKERS_PER_BELT_SIDE = NUMBER_OF_BELT_SLOTS;
+static const int NUMBER_OF_SYSTEM_TICKS = 2;
 
 #endif //FACTORY_PRODUCTION_LINE_SIMULATION_VARS_H

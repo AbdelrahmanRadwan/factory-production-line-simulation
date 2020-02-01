@@ -2,13 +2,19 @@
 #define FACTORY_PRODUCTION_LINE_SIMULATION_BELTSLOTITEM_H
 
 #include "../libs/headers.h"
+
 class beltSlotItem {
 private:
-    static string getNormallyDistributedBeltSlotItemType();
+    int id;
+    static int idCounter;
     string beltSlotItemType;
+
+    static string getNormallyDistributedBeltSlotItemType();
+
 public:
-    string getBeltSlotItemType();
     beltSlotItem();
+
+    string getBeltSlotItemType();
 };
 
 

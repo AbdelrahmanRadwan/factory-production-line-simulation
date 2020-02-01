@@ -1,7 +1,3 @@
-//
-// Created by abdelrahmanradwan on 30.01.20.
-//
-
 #ifndef FACTORY_PRODUCTION_LINE_SIMULATION_DASHBOARD_H
 #define FACTORY_PRODUCTION_LINE_SIMULATION_DASHBOARD_H
 
