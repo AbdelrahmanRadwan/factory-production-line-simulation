@@ -14,7 +14,7 @@ private:
 public:
     beltSlotItem();
 
-    string getBeltSlotItemType();
+    string &getBeltSlotItemType();
 };
 
 

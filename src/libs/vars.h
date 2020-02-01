@@ -3,7 +3,14 @@
 
 #include "headers.h"
 
+// An enum could be used instead of the next vector and items.
 static const vector<string> BELT_SLOT_ITEM_TYPES = {"PIECE_A", "PIECE_B", "EMPTY"};
+static const string BELT_SLOT_ITEM_TYPE_COMPLETED_PIECE = "PIECE_A_B";
+static const string BELT_SLOT_ITEM_TYPE_PIECE_TAKEN = "PIECE_TAKEN";
+static const string BELT_SLOT_ITEM_TYPE_PIECE_A = BELT_SLOT_ITEM_TYPES[0];
+static const string BELT_SLOT_ITEM_TYPE_PIECE_B = BELT_SLOT_ITEM_TYPES[1];
+static const string BELT_SLOT_ITEM_TYPE_EMPTY = BELT_SLOT_ITEM_TYPES[2];
+
 static const int BELT_SLOT_ITEM_TYPES_SIZE = BELT_SLOT_ITEM_TYPES.size();
 static const int NUMBER_OF_BELTS = 1;
 static const int NUMBER_OF_BELT_SIDES = 2;
