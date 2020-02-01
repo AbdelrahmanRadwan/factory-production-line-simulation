@@ -10,14 +10,21 @@ class worker {
     A worker can have a unique id, list of pieces in hand
  */
 private:
+    int id;
     static int idCounter;
     vector<beltSlotItem> itemsInHands;
 public:
-    int id;
-
     worker();
 
-    void takeItem(beltSlotItem);
+    bool canTakeItem(beltSlotItem);
+
+    bool canPutCompletedItemToBelt();
+
+    void putCompletedItemToBelt(beltSlotItem &);
+
+    void takeItem(beltSlotItem &);
+
+    int getNumberOfItemsInHands();
 };
 
 
