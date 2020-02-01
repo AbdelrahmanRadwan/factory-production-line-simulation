@@ -14,11 +14,17 @@ private:
      */
     vector<vector<vector<worker> > > workers;
 
-    void processSystemTick(int);
+    void processSystemTick(int, int);
 
     void processSystemTickBeltSLot(beltSlotItem &,
                                    worker &,
-                                   worker &);
+                                   worker &,
+                                   int);
+
+    void processSystemTickBeltSLotConflict(beltSlotItem &,
+                                           worker &,
+                                           worker &,
+                                           int);
 
 public:
     productionLine();
