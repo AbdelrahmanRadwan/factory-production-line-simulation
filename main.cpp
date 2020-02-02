@@ -2,7 +2,7 @@
 
 int main() {
     srand(time(NULL));
-    productionLine line;
-    line.runProductionLine();
+    productionLine productionLineFactorySystem;
+    productionLineFactorySystem.runProductionLine();
     return 0;
 }
