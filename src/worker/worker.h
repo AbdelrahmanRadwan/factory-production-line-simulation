@@ -18,13 +18,15 @@ public:
 
     bool canTakeItem(beltSlotItem);
 
-    bool canPutCompletedItemToBelt();
+    bool canPutCompletedItemToBelt(int);
 
     void putCompletedItemToBelt(beltSlotItem &);
 
-    void takeItem(beltSlotItem &);
+    void takeItem(beltSlotItem &, int);
 
     int getNumberOfItemsInHands();
+
+    string getItemsInHandsString();
 };
 
 

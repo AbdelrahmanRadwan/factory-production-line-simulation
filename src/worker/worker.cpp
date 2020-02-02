@@ -8,7 +8,7 @@ worker::worker() {
     this->id = ++idCounter;
 }
 
-void worker::takeItem(beltSlotItem &item) {
+void worker::takeItem(beltSlotItem &item, int systemTickNumber) {
     if (this->itemsInHands.size() <= 0) {
         this->itemsInHands.push_back(item);
     } else if (this->itemsInHands.size() == 1) {
@@ -16,6 +16,9 @@ void worker::takeItem(beltSlotItem &item) {
             this->itemsInHands[0].getBeltSlotItemType() != item.getBeltSlotItemType()) {
             // They can be combined in one item. no need to push new item.
             this->itemsInHands[0].getBeltSlotItemType() = BELT_SLOT_ITEM_TYPE_COMPLETED_PIECE;
+            // Update the time for next availability for placement on the belt
+            this->itemsInHands[0].getReadyToBePlacedTickTime() =
+                    systemTickNumber + OFFSET_TIME_REQUIRED_FOR_COMBINING_A_B_PIECES;
         } else {
             this->itemsInHands.push_back(item);
         }
@@ -28,7 +31,9 @@ void worker::takeItem(beltSlotItem &item) {
 }
 
 bool worker::canTakeItem(beltSlotItem item) {
-    if (item.getBeltSlotItemType() == BELT_SLOT_ITEM_TYPE_EMPTY) {
+    if (item.getBeltSlotItemType() == BELT_SLOT_ITEM_TYPE_EMPTY ||
+        item.getBeltSlotItemType() == BELT_SLOT_ITEM_TYPE_COMPLETED_PIECE ||
+        item.getBeltSlotItemType() == BELT_SLOT_ITEM_TYPE_PIECE_TAKEN) {
         return false;
     } else if (this->itemsInHands.size() <= 0) {
         return true;
@@ -44,20 +49,35 @@ bool worker::canTakeItem(beltSlotItem item) {
     return false;
 }
 
-bool worker::canPutCompletedItemToBelt() {
+bool worker::canPutCompletedItemToBelt(int systemTickNumber) {
+    if (this->itemsInHands.size() <= 0)
+        return false;
     for (auto item: this->itemsInHands)
-        if (item.getBeltSlotItemType() == BELT_SLOT_ITEM_TYPE_COMPLETED_PIECE)
+        if (item.getBeltSlotItemType() == BELT_SLOT_ITEM_TYPE_COMPLETED_PIECE &&
+            systemTickNumber >= item.getReadyToBePlacedTickTime())
             return true;
     return false;
 }
 
 void worker::putCompletedItemToBelt(beltSlotItem &item) {
+    // No need to check for the placement time of the completed items, because this is already done in previous step.
     item.getBeltSlotItemType() = BELT_SLOT_ITEM_TYPE_COMPLETED_PIECE;
-    for (auto it = this->itemsInHands.begin(); it != this->itemsInHands.end(); it++)
-        if (it->getBeltSlotItemType() == BELT_SLOT_ITEM_TYPE_COMPLETED_PIECE)
+    for (auto it = this->itemsInHands.begin(); it != this->itemsInHands.end(); it++) {
+        if (it->getBeltSlotItemType() == BELT_SLOT_ITEM_TYPE_COMPLETED_PIECE) {
             this->itemsInHands.erase(it);
+            break;
+        }
+    }
 }
 
 int worker::getNumberOfItemsInHands() {
     return this->itemsInHands.size();
+}
+
+string worker::getItemsInHandsString() {
+    string itemsInHandsString = "";
+    for (auto item: this->itemsInHands) {
+        itemsInHandsString += item.getBeltSlotItemType() + " ";
+    }
+    return itemsInHandsString;
 }

@@ -29,14 +29,14 @@ void productionLine::processSystemTickBeltSLotConflict(beltSlotItem &currentSlot
        - If any of them can place a complete item to the belt, go with it.
        - if none of them can place item to the belt, give it to the one with the higher number of items.
     */
-    if (beltLeftWorker.canPutCompletedItemToBelt()) {
-        beltLeftWorker.takeItem(currentSlot);
-    } else if (beltRightWorker.canPutCompletedItemToBelt()) {
-        beltRightWorker.takeItem(currentSlot);
+    if (beltLeftWorker.canPutCompletedItemToBelt(systemTick)) {
+        beltLeftWorker.takeItem(currentSlot, systemTick);
+    } else if (beltRightWorker.canPutCompletedItemToBelt(systemTick)) {
+        beltRightWorker.takeItem(currentSlot, systemTick);
     } else if (beltLeftWorker.getNumberOfItemsInHands() >= beltRightWorker.getNumberOfItemsInHands()) {
-        beltLeftWorker.takeItem(currentSlot);
+        beltLeftWorker.takeItem(currentSlot, systemTick);
     } else if (beltLeftWorker.getNumberOfItemsInHands() < beltRightWorker.getNumberOfItemsInHands()) {
-        beltRightWorker.takeItem(currentSlot);
+        beltRightWorker.takeItem(currentSlot, systemTick);
     }
 }
 
@@ -50,40 +50,46 @@ void productionLine::processSystemTickBeltSLot(beltSlotItem &currentSlot,
     if (leftWorkerCanTakeIt && rightWorkerCanTakeIt) {
         this->processSystemTickBeltSLotConflict(currentSlot, beltLeftWorker, beltRightWorker, systemTick);
     } else if (leftWorkerCanTakeIt) {
-        beltLeftWorker.takeItem(currentSlot);
+        beltLeftWorker.takeItem(currentSlot, systemTick);
     } else if (rightWorkerCanTakeIt) {
-        beltRightWorker.takeItem(currentSlot);
+        beltRightWorker.takeItem(currentSlot, systemTick);
     }
+    // If no worker can take the current item, and the current item is an empty cell, then try to place any completed item in
     // If the slot is empty, try to let a worker place a completed item there.
     if (!rightWorkerCanTakeIt && !leftWorkerCanTakeIt &&
         currentSlot.getBeltSlotItemType() == BELT_SLOT_ITEM_TYPE_EMPTY) {
-        if (beltLeftWorker.canPutCompletedItemToBelt()) {
+        if (beltLeftWorker.canPutCompletedItemToBelt(systemTick)) {
             beltLeftWorker.putCompletedItemToBelt(currentSlot);
-        } else if (beltRightWorker.canPutCompletedItemToBelt()) {
+        } else if (beltRightWorker.canPutCompletedItemToBelt(systemTick)) {
             beltRightWorker.putCompletedItemToBelt(currentSlot);
         }
     }
 }
 
 void productionLine::processSystemTick(const int beltLineIndex, const int systemTick) {
+    this->productionLineSystemMonitor.printSystemGraph(this->workers[beltLineIndex], this->belts[beltLineIndex], true,
+                                                       systemTick);
     // Step 1: Go through all of the belt slots, and process each of the belt slots
-    this->productionLineSystemMonitor.printSystemGraph(this->workers[0], this->belts[0]);
     for (int beltSlot = 0; beltSlot < this->belts[beltLineIndex].getBeltSlots().size(); beltSlot++) {
-        beltSlotItem& currentSlot = this->belts[beltLineIndex].getBeltSlots()[beltSlot];
+        beltSlotItem &currentSlot = this->belts[beltLineIndex].getBeltSlots()[beltSlot];
         worker &beltLeftWorker = this->workers[beltLineIndex][0][beltSlot];
         worker &beltRightWorker = this->workers[beltLineIndex][1][beltSlot];
-        this->processSystemTickBeltSLot(this->belts[beltLineIndex].getBeltSlots()[beltSlot], beltLeftWorker, beltRightWorker, systemTick);
+        this->processSystemTickBeltSLot(this->belts[beltLineIndex].getBeltSlots()[beltSlot], beltLeftWorker,
+                                        beltRightWorker, systemTick);
     }
-    this->productionLineSystemMonitor.printSystemGraph(this->workers[0], this->belts[0]);
+    this->productionLineSystemMonitor.printSystemGraph(this->workers[beltLineIndex], this->belts[beltLineIndex], false,
+                                                       systemTick);
     // Step 2: Let this belt move one step to the right.
-    this->belts[beltLineIndex].move();
+    beltSlotItem removedSlotItem = this->belts[beltLineIndex].move();
+    this->productionLineSystemMonitor.deliverItemFromBelt(removedSlotItem);
 }
 
 void productionLine::runProductionLine() {
     // The next function can be done in multi-threading.
-    for (int tick = 0; tick < NUMBER_OF_SYSTEM_TICKS; tick++) {
-        for (int beltLineIndex = 0; beltLineIndex < NUMBER_OF_BELTS; beltLineIndex++) {
+    for (int beltLineIndex = 0; beltLineIndex < NUMBER_OF_BELTS; beltLineIndex++) {
+        for (int tick = 0; tick < NUMBER_OF_SYSTEM_TICKS; tick++) {
             this->processSystemTick(beltLineIndex, tick);
         }
+        this->productionLineSystemMonitor.printSystemStats(this->workers[beltLineIndex], this->belts[beltLineIndex]);
     }
 }

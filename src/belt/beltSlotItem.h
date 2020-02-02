@@ -9,11 +9,14 @@ private:
     int id;
     static int idCounter;
     string beltSlotItemType;
+    int readyToBePlacedTickTime;
 
     static string getNormallyDistributedBeltSlotItemType();
 
 public:
     beltSlotItem();
+
+    int &getReadyToBePlacedTickTime();
 
     string &getBeltSlotItemType();
 };

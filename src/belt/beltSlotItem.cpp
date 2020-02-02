@@ -6,6 +6,7 @@ int beltSlotItem::idCounter = 0;
 
 beltSlotItem::beltSlotItem() {
     this->id = ++idCounter;
+    this->readyToBePlacedTickTime = -1;
     this->beltSlotItemType = beltSlotItem::getNormallyDistributedBeltSlotItemType();
 }
 
@@ -15,4 +16,8 @@ string beltSlotItem::getNormallyDistributedBeltSlotItemType() {
 
 string &beltSlotItem::getBeltSlotItemType() {
     return this->beltSlotItemType;
+}
+
+int &beltSlotItem::getReadyToBePlacedTickTime() {
+    return this->readyToBePlacedTickTime;
 }

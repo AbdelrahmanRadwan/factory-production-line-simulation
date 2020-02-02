@@ -9,16 +9,16 @@ private:
     int id;
     static int idCounter;
 
-    void beltShiftRight();
+    beltSlotItem beltShiftRight();
 
     vector<beltSlotItem> beltSlots;
 
 public:
     belt();
 
-    void move();
+    beltSlotItem move();
 
-    vector<beltSlotItem>& getBeltSlots();
+    vector<beltSlotItem> &getBeltSlots();
 };
 
 #endif //FACTORY_PRODUCTION_LINE_SIMULATION_BELT_H

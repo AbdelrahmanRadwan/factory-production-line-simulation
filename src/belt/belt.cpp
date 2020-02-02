@@ -12,16 +12,21 @@ belt::belt() {
         beltSlot = beltSlotItem();
 }
 
-void belt::move() {
-    this->beltShiftRight();
+beltSlotItem belt::move() {
+    const beltSlotItem removedSlotItem = this->beltShiftRight();
     this->beltSlots[0] = beltSlotItem();
+    return removedSlotItem;
 }
 
-void belt::beltShiftRight() {
+beltSlotItem belt::beltShiftRight() {
+    // Deliver the last item in the belt.
+    const beltSlotItem removedSlotItem = this->beltSlots[NUMBER_OF_BELT_SLOTS - 1];
+    // Shift the items to the right.
     for (int i = NUMBER_OF_BELT_SLOTS - 1; i > 0; i--)
         this->beltSlots[i] = this->beltSlots[i - 1];
+    return removedSlotItem;
 }
 
-vector<beltSlotItem>& belt::getBeltSlots() {
+vector<beltSlotItem> &belt::getBeltSlots() {
     return this->beltSlots;
 }
