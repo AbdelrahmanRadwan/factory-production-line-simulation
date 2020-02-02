@@ -10,6 +10,11 @@
 
 
 ## Sample Output
+**"A"**: Piece of type A.
+**"B"**: Piece of type B.
+**"C"**: Combined piece: Piece of type A combined with piece of type B.
+**" "**: An empty cell.
+**"X"**: Taken item: Empty cell that used to have an item in it.
 
 ```
 Tick #0 Initial System State before the tick:
@@ -2841,6 +2846,12 @@ Process finished with exit code 0
 
 ```
 
+## How does it work
+- For each belt in the system, per each tick, every two opponent workers are evaluated for whom can pick the item.
+- In case that only one of them can pick the item, then the worker should go with it.
+- In case that both of them can pick the item, then the one who can create a complete product has the priority.
+- In case that none of them can pick the item, but any of them can place an item, then it makes sense that any of them place the completed item.
+ 
 ## Enhancements and issues to solve
 - Some getter functions return references, could be replaced with setters
 - Some functions receive the arguments passed by value and not constant.
