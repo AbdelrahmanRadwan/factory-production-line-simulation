@@ -15,7 +15,7 @@
 **"C"**: Combined piece: Piece of type A combined with piece of type B.
 **" "**: An empty cell.
 **"X"**: Taken item: Empty cell that used to have an item in it.
-
+**Note:** You can edit the system config at `src/libs/vars.h` to have more workers, more system ticks, more belts ...
 ```
 Tick #0 Initial System State before the tick:
    v   v   v
