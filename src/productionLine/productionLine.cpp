@@ -1,5 +1,3 @@
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "bugprone-branch-clone"
 #pragma once
 
 #include "productionLine.h"
@@ -10,9 +8,9 @@ productionLine::productionLine() {
     this->workers.resize(NUMBER_OF_BELTS);
 
     // Create different workers for all of the belts slots ...
-    for (auto &workersBelt : this->workers)
+    for (auto &workersBelt : this->workers) {
         workersBelt.resize(NUMBER_OF_BELT_SIDES);
-
+    }
     for (auto &workersBelt : this->workers) {
         for (auto &workersRow: workersBelt) {
             workersRow.resize(NUMBER_OF_WORKERS_PER_BELT_SIDE);
@@ -47,7 +45,7 @@ void productionLine::processSystemTickBeltSLot(beltSlotItem &currentSlot,
                                                worker &beltRightWorker,
                                                const int systemTick) {
     bool leftWorkerCanTakeIt = beltLeftWorker.canTakeItem(currentSlot);
-    bool rightWorkerCanTakeIt = beltLeftWorker.canTakeItem(currentSlot);
+    bool rightWorkerCanTakeIt = beltRightWorker.canTakeItem(currentSlot);
     // Try to give the item in the slot to any of the workers
     if (leftWorkerCanTakeIt && rightWorkerCanTakeIt) {
         this->processSystemTickBeltSLotConflict(currentSlot, beltLeftWorker, beltRightWorker, systemTick);
@@ -67,14 +65,16 @@ void productionLine::processSystemTickBeltSLot(beltSlotItem &currentSlot,
     }
 }
 
-void productionLine::processSystemTick(int beltLineIndex, const int systemTick) {
+void productionLine::processSystemTick(const int beltLineIndex, const int systemTick) {
     // Step 1: Go through all of the belt slots, and process each of the belt slots
+    this->productionLineSystemMonitor.printSystemGraph(this->workers[0], this->belts[0]);
     for (int beltSlot = 0; beltSlot < this->belts[beltLineIndex].getBeltSlots().size(); beltSlot++) {
-        beltSlotItem &currentSlot = this->belts[beltLineIndex].getBeltSlots()[beltSlot];
-        worker &beltLeftWorker = this->workers[beltLineIndex][beltSlot][0];
-        worker &beltRightWorker = this->workers[beltLineIndex][beltSlot][1];
-        this->processSystemTickBeltSLot(currentSlot, beltLeftWorker, beltRightWorker, systemTick);
+        beltSlotItem& currentSlot = this->belts[beltLineIndex].getBeltSlots()[beltSlot];
+        worker &beltLeftWorker = this->workers[beltLineIndex][0][beltSlot];
+        worker &beltRightWorker = this->workers[beltLineIndex][1][beltSlot];
+        this->processSystemTickBeltSLot(this->belts[beltLineIndex].getBeltSlots()[beltSlot], beltLeftWorker, beltRightWorker, systemTick);
     }
+    this->productionLineSystemMonitor.printSystemGraph(this->workers[0], this->belts[0]);
     // Step 2: Let this belt move one step
     this->belts[beltLineIndex].move();
 }
@@ -87,5 +87,3 @@ void productionLine::runProductionLine() {
         }
     }
 }
-
-#pragma clang diagnostic pop

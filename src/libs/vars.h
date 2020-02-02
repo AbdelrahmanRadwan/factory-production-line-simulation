@@ -11,6 +11,18 @@ static const string BELT_SLOT_ITEM_TYPE_PIECE_A = BELT_SLOT_ITEM_TYPES[0];
 static const string BELT_SLOT_ITEM_TYPE_PIECE_B = BELT_SLOT_ITEM_TYPES[1];
 static const string BELT_SLOT_ITEM_TYPE_EMPTY = BELT_SLOT_ITEM_TYPES[2];
 
+
+static unordered_map<string, string> DRAW_MAP = {
+        {"EMPTY", " "},
+        {"PIECE_A", "A"},
+        {"PIECE_B", "B"},
+        {"PIECE_A_B", "C"},
+        {"PIECE_TAKEN", "X"}
+};
+static const string DRAW_SEPARATOR_LINE = " -------------";
+static const string DRAW_SYSTEM_HEADER = "System State:";
+
+
 static const int BELT_SLOT_ITEM_TYPES_SIZE = BELT_SLOT_ITEM_TYPES.size();
 static const int NUMBER_OF_BELTS = 1;
 static const int NUMBER_OF_BELT_SIDES = 2;

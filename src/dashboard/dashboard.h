@@ -4,6 +4,12 @@
 
 class dashboard {
 
+private:
+
+public:
+    dashboard();
+
+    void printSystemGraph(vector<vector<worker> >, belt);
 };
 
 

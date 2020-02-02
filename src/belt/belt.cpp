@@ -22,6 +22,6 @@ void belt::beltShiftRight() {
         this->beltSlots[i] = this->beltSlots[i - 1];
 }
 
-vector<beltSlotItem> belt::getBeltSlots() {
+vector<beltSlotItem>& belt::getBeltSlots() {
     return this->beltSlots;
 }

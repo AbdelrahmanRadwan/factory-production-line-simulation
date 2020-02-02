@@ -4,6 +4,7 @@
 #include "../libs/headers.h"
 
 class beltSlotItem {
+
 private:
     int id;
     static int idCounter;
@@ -16,6 +17,5 @@ public:
 
     string &getBeltSlotItemType();
 };
-
 
 #endif //FACTORY_PRODUCTION_LINE_SIMULATION_BELTSLOTITEM_H

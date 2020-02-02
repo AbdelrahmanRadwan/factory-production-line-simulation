@@ -14,21 +14,19 @@ void worker::takeItem(beltSlotItem &item) {
 }
 
 bool worker::canTakeItem(beltSlotItem item) {
-    if (item.getBeltSlotItemType() == BELT_SLOT_ITEM_TYPE_EMPTY)
+    if (item.getBeltSlotItemType() == BELT_SLOT_ITEM_TYPE_EMPTY) {
         return false;
-
-    if (itemsInHands.size() <= 0)
+    } else if (this->itemsInHands.size() <= 0) {
         return true;
-    else if (itemsInHands.size() == 1) {
+    } else if (this->itemsInHands.size() == 1) {
         // Can be re-written to return item types are not equal
         if (this->itemsInHands[0].getBeltSlotItemType() == BELT_SLOT_ITEM_TYPE_COMPLETED_PIECE)
             return true;
         else if (this->itemsInHands[0].getBeltSlotItemType() != item.getBeltSlotItemType())
             return true;
         return false;
-    } else if (itemsInHands.size() >= 2)
+    } else if (this->itemsInHands.size() >= 2)
         return false;
-
     return false;
 }
 

@@ -2,7 +2,6 @@
 
 #include "beltSlotItem.h"
 
-
 int beltSlotItem::idCounter = 0;
 
 beltSlotItem::beltSlotItem() {

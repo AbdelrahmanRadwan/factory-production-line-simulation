@@ -18,8 +18,7 @@ public:
 
     void move();
 
-    vector<beltSlotItem> getBeltSlots();
+    vector<beltSlotItem>& getBeltSlots();
 };
-
 
 #endif //FACTORY_PRODUCTION_LINE_SIMULATION_BELT_H
