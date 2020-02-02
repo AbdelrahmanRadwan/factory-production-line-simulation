@@ -9,7 +9,21 @@ worker::worker() {
 }
 
 void worker::takeItem(beltSlotItem &item) {
-    this->itemsInHands.push_back(item);
+    if (this->itemsInHands.size() <= 0) {
+        this->itemsInHands.push_back(item);
+    } else if (this->itemsInHands.size() == 1) {
+        if (this->itemsInHands[0].getBeltSlotItemType() != BELT_SLOT_ITEM_TYPE_COMPLETED_PIECE &&
+            this->itemsInHands[0].getBeltSlotItemType() != item.getBeltSlotItemType()) {
+            // They can be combined in one item. no need to push new item.
+            this->itemsInHands[0].getBeltSlotItemType() = BELT_SLOT_ITEM_TYPE_COMPLETED_PIECE;
+        } else {
+            this->itemsInHands.push_back(item);
+        }
+    } else {
+        // It shouldn't come to this point, because we do availability test before taking the item.
+        return;
+    }
+
     item.getBeltSlotItemType() = BELT_SLOT_ITEM_TYPE_PIECE_TAKEN; // Mark the item as taken
 }
 
@@ -19,7 +33,7 @@ bool worker::canTakeItem(beltSlotItem item) {
     } else if (this->itemsInHands.size() <= 0) {
         return true;
     } else if (this->itemsInHands.size() == 1) {
-        // Can be re-written to return item types are not equal
+        // Can be refactored to return item types are not equal
         if (this->itemsInHands[0].getBeltSlotItemType() == BELT_SLOT_ITEM_TYPE_COMPLETED_PIECE)
             return true;
         else if (this->itemsInHands[0].getBeltSlotItemType() != item.getBeltSlotItemType())

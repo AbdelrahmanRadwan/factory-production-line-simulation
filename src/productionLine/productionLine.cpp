@@ -75,7 +75,7 @@ void productionLine::processSystemTick(const int beltLineIndex, const int system
         this->processSystemTickBeltSLot(this->belts[beltLineIndex].getBeltSlots()[beltSlot], beltLeftWorker, beltRightWorker, systemTick);
     }
     this->productionLineSystemMonitor.printSystemGraph(this->workers[0], this->belts[0]);
-    // Step 2: Let this belt move one step
+    // Step 2: Let this belt move one step to the right.
     this->belts[beltLineIndex].move();
 }
 
