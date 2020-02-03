@@ -29,6 +29,6 @@ static const int NUMBER_OF_BELTS = 1;
 static const int NUMBER_OF_BELT_SIDES = 2;
 static const int NUMBER_OF_BELT_SLOTS = 3;
 static const int NUMBER_OF_WORKERS_PER_BELT_SIDE = NUMBER_OF_BELT_SLOTS;
-static const int NUMBER_OF_SYSTEM_TICKS = 200;
+static const int NUMBER_OF_SYSTEM_TICKS = 100;
 
 #endif //FACTORY_PRODUCTION_LINE_SIMULATION_VARS_H

@@ -70,12 +70,12 @@ void productionLine::processSystemTick(const int beltLineIndex, const int system
     this->productionLineSystemMonitor.printSystemGraph(this->workers[beltLineIndex], this->belts[beltLineIndex], true,
                                                        systemTick);
     // Step 1: Go through all of the belt slots, and process each of the belt slots
+    // The next loop can be extracted in a multi-threaded function.
     for (int beltSlot = 0; beltSlot < this->belts[beltLineIndex].getBeltSlots().size(); beltSlot++) {
         beltSlotItem &currentSlot = this->belts[beltLineIndex].getBeltSlots()[beltSlot];
         worker &beltLeftWorker = this->workers[beltLineIndex][0][beltSlot];
         worker &beltRightWorker = this->workers[beltLineIndex][1][beltSlot];
-        this->processSystemTickBeltSLot(this->belts[beltLineIndex].getBeltSlots()[beltSlot], beltLeftWorker,
-                                        beltRightWorker, systemTick);
+        this->processSystemTickBeltSLot(currentSlot, beltLeftWorker, beltRightWorker, systemTick);
     }
     this->productionLineSystemMonitor.printSystemGraph(this->workers[beltLineIndex], this->belts[beltLineIndex], false,
                                                        systemTick);
@@ -85,7 +85,7 @@ void productionLine::processSystemTick(const int beltLineIndex, const int system
 }
 
 void productionLine::runProductionLine() {
-    // The next function can be done in multi-threading.
+    // The current function can be done in multi-threading.
     for (int beltLineIndex = 0; beltLineIndex < NUMBER_OF_BELTS; beltLineIndex++) {
         for (int tick = 0; tick < NUMBER_OF_SYSTEM_TICKS; tick++) {
             this->processSystemTick(beltLineIndex, tick);
